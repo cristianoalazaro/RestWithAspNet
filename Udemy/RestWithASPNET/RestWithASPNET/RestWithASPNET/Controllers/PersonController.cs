@@ -1,27 +1,56 @@
 using Microsoft.AspNetCore.Mvc;
+using RestWithASPNET.Model;
+using RestWithASPNET.Services;
 
 namespace RestWithASPNET.Controllers
 {
+    [ApiVersion("1")]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class PersonController : ControllerBase
     {
         private readonly ILogger<PersonController> _logger;
+        private IPersonService _personService;
 
-        public PersonController(ILogger<PersonController> logger)
+        public PersonController(ILogger<PersonController> logger, IPersonService personService)
         {
             _logger = logger;
+            _personService = personService;
         }
 
-        [HttpGet("sum/{firstNumber}/{secondNumber}")]
-        public IActionResult GetSum(string firstNumber, string secondNumber)
+        [HttpGet]
+        public IActionResult Get()
         {
-            if (isNumeric(firstNumber) && isNumeric(secondNumber))
-            {
-                var sum = ConvertToDecimal(firstNumber) + ConvertToDecimal(secondNumber);
-                return Ok(sum.ToString());
-            }
-            return BadRequest("Invalid Input!");
-        } 
+            return Ok(_personService.FindAll());
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult Get(long id)
+        {
+            var person = _personService.FindById(id);
+            if (person is null) return NotFound();
+            return Ok(person);
+        }
+
+        [HttpPost]
+        public IActionResult Post([FromBody] Person person)
+        {
+            if (person is null) return BadRequest();
+            return Ok(_personService.Create(person));
+        }
+
+        [HttpPut]
+        public IActionResult Put([FromBody] Person person)
+        {
+            if (person is null) return BadRequest();
+            return Ok(_personService.Update(person));
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(long id)
+        {
+            _personService.Delete(id);
+            return NoContent();
+        }
     }
 }
