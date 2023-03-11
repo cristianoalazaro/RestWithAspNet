@@ -9,6 +9,5 @@ namespace RestWithASPNET.Services
         Person Create(Person person);
         Person Update(Person person);
         void Delete(long id);
-        bool Exists(long id);
     }
 }
