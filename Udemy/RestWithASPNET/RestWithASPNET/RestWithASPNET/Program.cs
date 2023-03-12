@@ -16,6 +16,7 @@ var connection = builder.Configuration.GetValue<string>("MySQLConnection:MySQLCo
 builder.Services.AddDbContext<MySQLContext>(options =>
     options.UseMySql(connection, ServerVersion.AutoDetect(connection)));
 
+
 builder.Services.AddApiVersioning();
 
 builder.Services.AddScoped<IPersonService, PersonServiceImplementation>();

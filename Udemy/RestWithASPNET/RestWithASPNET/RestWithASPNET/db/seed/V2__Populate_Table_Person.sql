@@ -1,4 +1,4 @@
-﻿INSERT INTO `person` VALUES 
+﻿INSERT INTO person VALUES 
 (1,'Rua José de Matos, 79 - Vale Verde - B Campos','Cristiano','Ap Lázaro','Male'),
 (2,'Rua José de Matos, 79 - Vale Verde - B Campos','Elenice','C Lázaro','Female'),
 (3,'Rua José de Matos, 79 - Vale Verde - B Campos','Cristiane','C Lázaro','Female'),
