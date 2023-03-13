@@ -2,14 +2,15 @@
 using RestWithASPNET.Model;
 using RestWithASPNET.Model.Context;
 using RestWithASPNET.Repository;
+using RestWithASPNET.Repository.Generic;
 
 namespace RestWithASPNET.Services.Implementations
 {
     public class PersonServiceImplementation : IPersonService
     {
-        private IPersonRepository _personRepository;
+        private IRepository<Person> _personRepository;
 
-        public PersonServiceImplementation(IPersonRepository personRepository)
+        public PersonServiceImplementation(IRepository<Person> personRepository)
         {
             _personRepository = personRepository;
         }

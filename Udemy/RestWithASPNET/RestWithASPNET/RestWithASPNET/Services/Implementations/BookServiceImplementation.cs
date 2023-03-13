@@ -1,13 +1,14 @@
 ﻿using RestWithASPNET.Model;
 using RestWithASPNET.Repository;
+using RestWithASPNET.Repository.Generic;
 
 namespace RestWithASPNET.Services.Implementations
 {
     public class BookServiceImplementation: IBookService
     {
-        private IBookRepository _bookRepository;
+        private IRepository<Book> _bookRepository;
 
-        public BookServiceImplementation(IBookRepository bookRepository)
+        public BookServiceImplementation(IRepository<Book> bookRepository)
         {
             _bookRepository = bookRepository;
         }

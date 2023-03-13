@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using RestWithASPNET.Model.Context;
-using RestWithASPNET.Repository;
-using RestWithASPNET.Repository.Implementations;
+using RestWithASPNET.Repository.Generic;
 using RestWithASPNET.Services;
 using RestWithASPNET.Services.Implementations;
 
@@ -20,12 +19,9 @@ builder.Services.AddDbContext<MySQLContext>(options =>
 builder.Services.AddApiVersioning();
 
 builder.Services.AddScoped<IPersonService, PersonServiceImplementation>();
-
-builder.Services.AddScoped<IPersonRepository, PersonRepositoryImplementation>();
-
 builder.Services.AddScoped<IBookService, BookServiceImplementation>();
 
-builder.Services.AddScoped<IBookRepository, BookRepositoryImplementation>();
+builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 
 var app = builder.Build();
 

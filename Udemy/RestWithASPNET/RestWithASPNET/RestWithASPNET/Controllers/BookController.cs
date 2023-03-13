@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using RestWithASPNET.Model;
 using RestWithASPNET.Services;
 
@@ -29,7 +28,9 @@ namespace RestWithASPNET.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id) 
         { 
-            return Ok(_bookService.FindById(id));
+            var book = _bookService.FindById(id);
+            if (book == null) return NotFound();
+            return Ok(book);
         }
 
         [HttpPost]
