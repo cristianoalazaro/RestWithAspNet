@@ -23,6 +23,10 @@ builder.Services.AddScoped<IPersonService, PersonServiceImplementation>();
 
 builder.Services.AddScoped<IPersonRepository, PersonRepositoryImplementation>();
 
+builder.Services.AddScoped<IBookService, BookServiceImplementation>();
+
+builder.Services.AddScoped<IBookRepository, BookRepositoryImplementation>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
