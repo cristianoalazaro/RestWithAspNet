@@ -2,6 +2,7 @@
 using RestWithASPNET.Data.VO;
 using RestWithASPNET.Model;
 using RestWithASPNET.Repository.Generic;
+using RestWithASPNET.Utils;
 
 namespace RestWithASPNET.Services.Implementations
 {
@@ -16,9 +17,9 @@ namespace RestWithASPNET.Services.Implementations
             _converter = new PersonConverter();
         }
 
-        public List<PersonVO> FindAll()
+        public List<PersonVO> FindAll(ParamsPagination paramsPagination)
         {
-            return _converter.Parse(_personRepository.FindAll());
+            return _converter.Parse(_personRepository.FindAll(paramsPagination));
         }
 
         public PersonVO FindById(long id)

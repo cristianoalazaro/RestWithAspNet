@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using RestWithASPNET.Data.VO;
 using RestWithASPNET.Hypermedia.Filters;
 using RestWithASPNET.Services;
+using RestWithASPNET.Utils;
 
 namespace RestWithASPNET.Controllers
 {
@@ -21,9 +22,9 @@ namespace RestWithASPNET.Controllers
 
         [HttpGet]
         [TypeFilter(typeof(HyperMediaFilter))]
-        public IActionResult Get()
+        public IActionResult Get([FromQuery] ParamsPagination paramsPagination)
         {
-            return Ok(_personService.FindAll());
+            return Ok(_personService.FindAll(paramsPagination));
         }
 
         [HttpGet("{id}")]

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RestWithASPNET.Model.Base;
 using RestWithASPNET.Model.Context;
+using RestWithASPNET.Utils;
 using System;
 
 namespace RestWithASPNET.Repository.Generic;
@@ -16,9 +17,12 @@ public class GenericRepository<T> : IRepository<T> where T : BaseEntity
         dataset = _context.Set<T>();
     }
 
-    public List<T> FindAll()
+    public List<T> FindAll(ParamsPagination paramsPagination)
     {
-        return dataset.ToList();
+        return dataset
+            .Skip((paramsPagination.PageNumber - 1) * paramsPagination.PageSize)
+            .Take(paramsPagination.PageSize)
+            .ToList();
     }
 
     public T FindById(long id)

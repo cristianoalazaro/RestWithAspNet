@@ -2,6 +2,7 @@
 using RestWithASPNET.Data.VO;
 using RestWithASPNET.Model;
 using RestWithASPNET.Repository.Generic;
+using RestWithASPNET.Utils;
 
 namespace RestWithASPNET.Services.Implementations
 {
@@ -16,9 +17,9 @@ namespace RestWithASPNET.Services.Implementations
             _converter = new BookConverter();
         }
 
-        public List<BookVO> FindAll()
+        public List<BookVO> FindAll(ParamsPagination paramsPagination)
         {
-            return _converter.Parse(_bookRepository.FindAll());
+            return _converter.Parse(_bookRepository.FindAll(paramsPagination));
         }
 
         public BookVO FindById(long id)
