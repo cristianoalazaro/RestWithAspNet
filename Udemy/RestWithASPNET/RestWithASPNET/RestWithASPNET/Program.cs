@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using RestWithASPNET.Hypermedia.Enricher;
 using RestWithASPNET.Hypermedia.Filters;
 using RestWithASPNET.Model.Context;
@@ -11,6 +13,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 // Add services to the container.
+
+builder.Services.AddCors(options => options.AddDefaultPolicy(builder =>
+{
+    builder.AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+}));
 
 builder.Services.AddControllers();
 
@@ -35,6 +44,21 @@ builder.Services.AddSingleton(filterOptions);
 
 builder.Services.AddApiVersioning();
 
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1",
+        new OpenApiInfo
+        {
+            Title = "Rest API's with Asp.Net Core and Docker",
+            Version = "v1",
+            Description = "API Restful",
+            Contact = new OpenApiContact
+            {
+                Name = "Cristiano Ap Lázaro"                
+            }
+        });
+});
+
 builder.Services.AddScoped<IPersonService, PersonServiceImplementation>();
 builder.Services.AddScoped<IBookService, BookServiceImplementation>();
 
@@ -45,6 +69,19 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 
 app.UseHttpsRedirection();
+
+app.UseCors();
+
+app.UseSwagger();
+
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Rest API with Docker - v1");
+});
+
+var option = new RewriteOptions();
+option.AddRedirect("^$", "swagger");
+app.UseRewriter(option);
 
 app.UseAuthorization();
 
