@@ -1,18 +1,58 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using RestWithASPNET.Configurations;
 using RestWithASPNET.Hypermedia.Enricher;
 using RestWithASPNET.Hypermedia.Filters;
 using RestWithASPNET.Model.Context;
+using RestWithASPNET.Repository;
 using RestWithASPNET.Repository.Generic;
 using RestWithASPNET.Services;
 using RestWithASPNET.Services.Implementations;
 using System.Net.Http.Headers;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
 // Add services to the container.
+
+var tokenConfigurations = new TokenConfiguration();
+
+new ConfigureFromConfigurationOptions<TokenConfiguration>(
+    builder.Configuration.GetSection("TokenConfigurations")
+    ).Configure(tokenConfigurations);
+
+builder.Services.AddSingleton(tokenConfigurations);
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = tokenConfigurations.Issuer,
+        ValidAudience = tokenConfigurations.Audience,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenConfigurations.Secret))
+    };
+});
+
+builder.Services.AddAuthorization(auth =>
+{
+    auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
+        .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+        .RequireAuthenticatedUser().Build());
+});
 
 builder.Services.AddCors(options => options.AddDefaultPolicy(builder =>
 {
@@ -61,8 +101,12 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddScoped<IPersonService, PersonServiceImplementation>();
 builder.Services.AddScoped<IBookService, BookServiceImplementation>();
+builder.Services.AddScoped<ILoginService, LoginServiceImplementation>();
+
+builder.Services.AddTransient<ITokenService, TokenService>();
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 var app = builder.Build();
 

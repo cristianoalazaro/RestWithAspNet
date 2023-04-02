@@ -7,9 +7,59 @@
 	"item": [
 		{
 			"name": "GetAllPerson",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if (responseCode.code >= 200 && responseCode.code <= 299){\r",
+							"    var jsonData = JSON.parse(responseBody);\r",
+							"\r",
+							"    postman.setEnvironmentVariable('accessToken', jsonData.accessToken);\r",
+							"    postman.setEnvironmentVariable('refreshToken', jsonData.refreshToken);\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "default"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjNTNjYjc3OGRkYjA0MjIzOGU3ZjM3NTA2MTczY2I4OCIsInVuaXF1ZV9uYW1lIjoiY3Jpc3RpYW5vIiwiZXhwIjoxNjgwMzUwNTY2LCJpc3MiOiJFeGFtcGxlSXNzdWVyIiwiYXVkIjoiRXhhbXBsZUF1ZGllbmNlIn0.BCOU-rWTNOcfVbeEaWA3iUePoQkCAs09DY66luLNLkE",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:44300/api/person/v1?pagenumber=3&pagesize=2",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44300",
+					"path": [
+						"api",
+						"person",
+						"v1"
+					],
+					"query": [
+						{
+							"key": "pagenumber",
+							"value": "3"
+						},
+						{
+							"key": "pagesize",
+							"value": "2"
+						}
+					]
+				}
 			},
 			"response": []
 		},
@@ -42,6 +92,147 @@
 			"request": {
 				"method": "GET",
 				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "AuthSignin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if (responseCode.code >= 200 && responseCode.code <= 299){\r",
+							"    var jsonData = JSON.parse(responseBody);\r",
+							"\r",
+							"    postman.setEnvironmentVariable('accessToken', jsonData.accessToken);\r",
+							"    postman.setEnvironmentVariable('refreshToken', jsonData.refreshToken);\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"cristiano\",\r\n    \"password\": \"admin123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44300/api/auth/v1/signin",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44300",
+					"path": [
+						"api",
+						"auth",
+						"v1",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AuthRefresh",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if (responseCode.code >= 200 && responseCode.code <= 299){\r",
+							"    var jsonData = JSON.parse(responseBody);\r",
+							"\r",
+							"    postman.setEnvironmentVariable('accessToken', jsonData.accessToken);\r",
+							"    postman.setEnvironmentVariable('refreshToken', jsonData.refreshToken);\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"cristiano\",\r\n    \"password\": \"admin123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44300/api/auth/v1/signin",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44300",
+					"path": [
+						"api",
+						"auth",
+						"v1",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AuthRevoke",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if (responseCode.code >= 200 && responseCode.code <= 299){\r",
+							"    var jsonData = JSON.parse(responseBody);\r",
+							"\r",
+							"    postman.setEnvironmentVariable('accessToken', jsonData.accessToken);\r",
+							"    postman.setEnvironmentVariable('refreshToken', jsonData.refreshToken);\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"cristiano\",\r\n    \"password\": \"admin123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44300/api/auth/v1/signin",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44300",
+					"path": [
+						"api",
+						"auth",
+						"v1",
+						"signin"
+					]
+				}
 			},
 			"response": []
 		},

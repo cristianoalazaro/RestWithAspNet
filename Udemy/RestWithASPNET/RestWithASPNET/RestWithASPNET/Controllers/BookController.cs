@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RestWithASPNET.Data.VO;
 using RestWithASPNET.Hypermedia.Filters;
 using RestWithASPNET.Services;
@@ -9,6 +10,7 @@ namespace RestWithASPNET.Controllers
     [ApiVersion("1")]
     [Route("api/[controller]/v{version:ApiVersion}")]
     [ApiController]
+    [Authorize("Bearer")]
     public class BookController : ControllerBase
     {
         private readonly ILogger<BookController> _logger;
